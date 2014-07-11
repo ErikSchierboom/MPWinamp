@@ -1,0 +1,14 @@
+;This file is important as it forces the compiler to generate
+;clean export function names. Remember to modify the LIBRARY
+;line with the name of your DLL if you copy this file in your
+;project.
+
+LIBRARY						"MPWinamp"
+EXPORTS
+	Initialize					PRIVATE
+	Uninitialize				PRIVATE
+	Configure					  PRIVATE
+	PublishInfo					PRIVATE
+	ParseCommand				PRIVATE
+	ParseTag					  PRIVATE
+;	ReceiveNotify				PRIVATE

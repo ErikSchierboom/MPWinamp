@@ -1,0 +1,82 @@
+MPWinamp Plugin v0.80 by Erik Schierboom.
+
+This document describes how to use the MPWinamp Plugin v0.80. It lists all possible tags and commands and describes how the nickname mask can be setup. 
+Note: all commands and tags are placed between "" characters.
+
+Nickname changing commands:
+"/xwinampnick"         : Update the nickname based on the current mask.
+"/xwinampnick on"      : Enable the updating of the nickname.
+"/xwinampnick off"     : Disable the updating of the nickname.
+"/xwinampnick enable"  : Enable the updating of the nickname.
+"/xwinampnick disable" : Disable the updating of the nickname.
+"/xwinampnick config"  : Show the MPWinamp configuration window.
+"/xwinampmask %1"      : Change the nickname mask to "%1".
+
+The following commands all link with Winamp, thus they only have effect when Winamp is running.
+"/xwinampnext"         : Play the next song.
+"/xwinampprev"         : Play the previous song.
+"/xwinampplay"         : Play the current song.
+"/xwinamppause"        : Pause the current song.
+"/xwinampstop"         : Stop the current song.
+"/xwinamprepeat"       : Toggle repeat on/off.
+"/xwinampshuffle"      : Toggle shuffle on/off.
+"/xwinampontop"        : Toggle always on-top on/off.	
+"/xwinampclose"        : Close Winamp.
+"/xwinampopenfile"     : Show the open file dialog.
+"/xwinampopenurl"      : Show the open URL dialog.
+"/xwinampopenjtf"      : Show the jump-to-file dialog.
+"/xwinampopenjtt"      : Show the jump-to-time dialog.
+"/xwinampopenfileinfo" : Show the file info dialog.
+
+The following tags are available when the MPWinamp plugin is installed:
+"(!XTITLE)"       : Equals the title of the current song playing in Winamp.
+"(!XARTIST)"      : Equals the artist of the current song playing in Winamp.
+"(!XARTISTTITLE)" : Equals the arist - title of the current song playing in Winamp.
+"(!XSONGINDEX)"   : Equals the song index of the current song playing in Winamp.
+Note: when one of these tags is entered and the tag contains no value (because Winamp is not running), not text is sent.
+
+The configuration dialog lets you change the following values. All changes have immediate effect save for the refresh rate which requires a restart of MSN Messenger.
+"Enabled"       : Indicates if the plugin is enabled or disabled.
+"Nickname mask" : The mask used when updating the nickname, this will be explained in detail later on.
+"Refresh rate"  : The number of seconds it takes before the plugin updates the nickname. It only updates the nickname when     the new nickname is different from the previous.
+"Notify"        : Indicates if the showing of the nickname change notification ('toast') is shown when the nickname is changed.
+
+The nickname mask is nothing more than a nickname with some special tags in it which are substituted with other values. The nickname mask can contain the following direct substitution tags:
+"%1" : The artist of the current song playing in Winamp.
+"%2" : The title of the current song playing in Winamp.
+"%3" : The combination of the current artist with the current title, separated by " - ", now playing in Winamp.
+"%4" : The index of the current song in Winamp's playlist.
+
+The following two tags are no direct substitution tags, they are formatting tags. They are there to help separate between the two possible states: Winamp is playing or Winamp is not playing. When Winamp is not playing, the beforementioned direct substitution tags lose their values and only become a hindrance. Therefore, the MPWinamp plugin supports conditional mask text to placed in the mask. All text placed between the first start tag ("%[") and the last subsequent stop tag ("%]") are only displayed when Winamp is running. If Winamp is not running the whole conditional block is not displayed.
+Note 1: The last stop tag must be located after the first start tag.
+Note 2: MPWinamp tries to find the largest conditional block possible, that means it searches for the first start tag it encounters as well as the last stop tag.
+Note 3: The start and stop tags itself are never displayed, the merely have a formatting value.
+"%[" : Start of the Winamp-running-only text.
+"%]" : End of the Winamp-running-only text.
+
+To help clarify things, a couple of example nickname masks and their resulting nicknames are shown. Both the mask and the output is placed between "" character for clarity. 
+
+Situation 1: Winamp is playing the song "Dracula" by "Iced Earth" and it is song number "4" in the playlist.
+Mask Nr.    Mask             Output
+Mask 1.1:   "%1"        ->   "Iced Earth"
+Mask 1.2:   "%2"        ->   "Dracula"
+Mask 1.3:   "%3"        ->   "Iced Earth - Dracula"
+Mask 1.4:   "%2 - %1"   ->   "Dracula - Iced Earth"
+Mask 1.5:   "%4. %3"    ->   "4. Iced Earth - Dracula"
+
+Of course, we can combine our tags with plain text (for example our 'real' nickname):
+Mask Nr.    Mask                                 Output
+Mask 1.6:   "MyNick (%2)"                   ->   "My Nick (Dracula)"
+Mask 1.7:   "MyNick, <%1 with %3 rules!>"   ->   "MyNick, <Iced Earth with Dracula rules!>"
+
+Situation 2: Winamp is not playing anything. We're now gonna use the start and stop tags.
+Mask Nr.    Mask                                 Output
+Mask 2.1:   "MyNick, not playing:%[ %2%]"   ->   "My Nick, not playing:"
+Mask 2.2:   "MyNick%[%3%]                   ->   "MyNick"
+
+Situation 3: Winamp is playing and again we're using the start and stop tags.
+Mask Nr.    Mask                                Output
+Mask 3.1:   "MyNick, displaying:%[ %2%]"   ->   "My Nick, playing: Dracula"
+Mask 3.2:   "MyNick%[<%1>%] is cool        ->   "MyNick <Iced Earth> is cool"
+
+Erik Schierboom, 26-11-2004
